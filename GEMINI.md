@@ -326,11 +326,6 @@ resource.data.name.matches('^gcp-vm-(linux|windows)-v\\d+$')
 resource.data.selfLink.matches('https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/networks/default') || resource.data.peerings.exists(p, p.network.matches('https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/networks/shared$'))
 ```
 
-**Cloud Functions - Internal Ingress Only**
-```cel
-has(resource.data.ingressSettings) && resource.data.ingressSettings.matches('ALLOW_INTERNAL_ONLY')
-```
-
 **Service Usage - Allowlist APIs**
 ```cel
 resource.data.state == 'ENABLED' && !(resource.data.name.matches('storage-api.googleapis.com') || resource.data.name.matches('bigquery.googleapis.com'))
