@@ -1287,14 +1287,6 @@ async def create_workload(
         operation = regional_client.create_workload(request=request)
         logger.info(f"CreateWorkload operation started: {operation.operation.name}")
         
-        # Determine if we should wait or return the operation name. 
-        # For now, let's wait a bit and see if it finishes, similar to other tools.
-        # But Assured Workloads creation can be very slow (minutes). 
-        # So maybe just return the LRO details.
-        
-        # response = operation.result(timeout=10) # fast fail/succeed check
-        # return proto_message_to_dict(response)
-        
         return {
             "status": "operation_started",
             "operation": operation.operation.name,

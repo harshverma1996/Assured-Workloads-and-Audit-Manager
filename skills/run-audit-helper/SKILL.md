@@ -49,11 +49,11 @@ Present the following list of explicit frameworks to the user and ask them to se
 
 ### If GCS Bucket is Missing (And Goal is Audit Report):
 1.  Identify the target scope (Project, Folder, or Organization). If not provided, ask the user for it.
-2.  Call `get_resource_enrollment_status(parent=...)` for that scope.
+2.  Call `get_resource_enrollment_status(parent=...)` tool in `assured-workloads-and-audit-manager-mcp` for that scope.
 3.  Examine the output for enrolled destinations. Look for fields such as `destinations`, `eligibleDestinations`, or `gcsBuckets`.
     *   These fields will typically contain GCS bucket URIs (e.g., `gs://my-bucket`).
 4.  **Present Enrolled Buckets**: Present these buckets to the user and ask them to select one.
-    *   **CRITICAL DO NOT USE `gcloud`**: Do NOT use `gcloud storage ls` or similar CLI commands to find buckets. You must ONLY use the `get_resource_enrollment_status` tool to find buckets that are actually enrolled and valid for this operation. Random buckets found via CLI will likely fail the audit generation process.
+    *   **CRITICAL DO NOT USE `gcloud`**: Do NOT use `gcloud storage ls` or similar CLI commands to find buckets. You must ONLY use the `get_resource_enrollment_status` tool in `assured-workloads-and-audit-manager-mcp` to find buckets that are actually enrolled and valid for this operation. Random buckets found via CLI will likely fail the audit generation process.
 5.  **Option:** Allow the user to provide a new bucket URI if none of the listed ones are suitable.
 
 ## 3. Final Confirmation & Execution
@@ -62,5 +62,5 @@ Once the "Missing" list in your Current State check is EMPTY:
 
 1.  Confirm the final details with the user.
 2.  Call the appropriate tool:
-    *   `generate_audit_report(scope=..., gcs_uri=..., compliance_standard=..., location=...)`
-    *   `generate_audit_scope_report(scope=..., compliance_standard=..., location=...)`
+    *   `generate_audit_report(scope=..., gcs_uri=..., compliance_standard=..., location=...)` in `assured-workloads-and-audit-manager-mcp`
+    *   `generate_audit_scope_report(scope=..., compliance_standard=..., location=...)` in `assured-workloads-and-audit-manager-mcp`
