@@ -53,6 +53,7 @@ from google.cloud.cloudsecuritycompliance_v1.types import (
     RuleActionType,
 )
 from google.protobuf import json_format
+from google.protobuf import field_mask_pb2
 from mcp.server.fastmcp import FastMCP
 
 # Initialize FastMCP server
@@ -1345,25 +1346,21 @@ async def update_workload(
 
         if display_name:
             workload.display_name = display_name
-            update_mask.paths.append("display_name")
+            update_mask.paths.append("workload.display_name")
         
         if labels:
             workload.labels = labels
-            update_mask.paths.append("labels")
+            update_mask.paths.append("workload.labels")
 
         request = assuredworkloads_v1.UpdateWorkloadRequest(
             workload=workload,
             update_mask=update_mask,
         )
 
-        operation = regional_client.update_workload(request=request)
-        logger.info(f"UpdateWorkload operation started: {operation.operation.name}")
+        updated_workload = regional_client.update_workload(request=request)
+        logger.info(f"Workload updated: {updated_workload.name}")
 
-        return {
-            "status": "operation_started",
-            "operation": operation.operation.name,
-            "note": "Workload update has started."
-        }
+        return proto_message_to_dict(updated_workload)
     except google_exceptions.GoogleAPICallError as e:
          logger.error(f"Error updating workload: {e}")
          return {"error": str(e)}
