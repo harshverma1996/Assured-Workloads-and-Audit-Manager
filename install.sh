@@ -13,11 +13,11 @@
 # limitations under the License.
 
 #!/bin/bash
-# Simple installation script for Compliance Gemini CLI Extension
+# Simple installation script for Assured Workloads & Audit Manager Gemini CLI Extension
 
 set -e
 
-echo "Installing Compliance Gemini CLI Extension..."
+echo "Installing Assured Workloads & Audit Manager Gemini CLI Extension..."
 echo ""
 
 # Check prerequisites
@@ -35,7 +35,7 @@ fi
 echo "✓ Prerequisites found"
 
 # Create extension directory
-EXTENSION_DIR="$HOME/.gemini/extensions/compliance"
+EXTENSION_DIR="$HOME/.gemini/extensions/assured-workloads-and-audit-manager"
 mkdir -p "$EXTENSION_DIR"
 
 # Create virtual environment (isolates dependencies from system Python)
@@ -62,7 +62,7 @@ fi
 
 # Copy files
 echo "Copying extension files..."
-cp compliance_mcp.py "$EXTENSION_DIR/"
+cp assured_workloads_and_audit_manager_mcp.py "$EXTENSION_DIR/"
 cp GEMINI.md "$EXTENSION_DIR/"
 
 # Create run script
@@ -77,20 +77,20 @@ export GLOG_minloglevel=3
 export PYTHONUNBUFFERED=1
 
 # Run MCP server
-# Logging now goes to stderr (configured in compliance_mcp.py)
+# Logging now goes to stderr (configured in assured_workloads_and_audit_manager_mcp.py)
 # Redirect stderr to /dev/null to keep output clean for JSON-RPC
-exec .venv/bin/python3 -W ignore compliance_mcp.py 2> /tmp/mcpComp.log
+exec .venv/bin/python3 -W ignore assured_workloads_and_audit_manager_mcp.py 2> /tmp/mcpComp.log
 EOF
 chmod +x "$EXTENSION_DIR/run_mcp.sh"
 
 # Create extension config
 cat > "$EXTENSION_DIR/gemini-extension.json" << EOF
 {
-  "name": "compliance",
+  "name": "assured-workloads-and-audit-manager",
   "version": "1.0.0",
-  "description": "Google Cloud Compliance extension for Gemini CLI",
+  "description": "Google Cloud Assured Workloads and Audit Manager extension for Gemini CLI",
   "mcpServers": {
-    "compliance-mcp": {
+    "assured-workloads-and-audit-manager-mcp": {
       "command": "$EXTENSION_DIR/run_mcp.sh",
       "args": [],
       "env": {}
@@ -111,6 +111,6 @@ echo "2. Start Gemini CLI:"
 echo "   gemini"
 echo ""
 echo "3. Test the extension:"
-echo "   List all compliance frameworks in organization YOUR_ORG_ID"
+echo "   List all audit reports in organization YOUR_ORG_ID"
 echo ""
 

@@ -1,51 +1,57 @@
-# Compliance Extension for Gemini CLI
+# Assured Workloads & Audit Manager Extension for Gemini CLI
 
-This extension provides integration with Google Cloud Compliance Manager, part of Security Command Center Enterprise and Audit Manager.
+This extension provides integration with Google Cloud Assured Workloads and Audit Manager.
 
 ## Purpose
 
-The Compliance Manager extension enables you to:
-- **Discover** compliance frameworks (CIS, NIST, FedRAMP, etc.)
-- **Inspect** cloud controls and their configurations
-- **Deploy** compliance frameworks to organizations, folders, and projects
-- **Monitor** framework and cloud control deployments
-- **Manage** compliance posture across your Google Cloud infrastructure
+The Assured Workloads & Audit Manager extension enables you to:
+- **Manage Assured Workloads**: Create and manage regulated environments (FedRAMP, IL4/5, CJIS, etc.) and monitor violations.
+- **Manage Compliance Audits**: Enroll resources in Audit Manager, generate compliance reports, and analyze report findings.
 
 ## Available Tools
 
 ### Framework Management
-- `@compliance-mcp list_frameworks` - List all available compliance frameworks (built-in and custom)
-- `@compliance-mcp get_framework` - Get detailed information about a specific framework
-- `@compliance-mcp create_framework` - Create a custom compliance framework
-- `@compliance-mcp delete_framework` - Delete a custom framework
+- `@assured-workloads-and-audit-manager-mcp list_frameworks` - List all available compliance frameworks for assured workloads and audit manager (built-in and custom)
+- `@assured-workloads-and-audit-manager-mcp get_framework` - Get detailed information about a specific framework
+- `@assured-workloads-and-audit-manager-mcp create_framework` - Create a custom compliance framework
+- `@assured-workloads-and-audit-manager-mcp delete_framework` - Delete a custom framework
 
 ### Cloud Control Management
-- `@compliance-mcp list_cloud_controls` - List all cloud controls (built-in and custom)
-- `@compliance-mcp get_cloud_control` - Get detailed information about a specific cloud control
-- `@compliance-mcp create_cloud_control` - Create a custom cloud control
-- `@compliance-mcp update_cloud_control` - Update a custom cloud control
-- `@compliance-mcp delete_cloud_control` - Delete a custom cloud control
+- `@assured-workloads-and-audit-manager-mcp list_cloud_controls` - List all cloud controls (built-in and custom)
+- `@assured-workloads-and-audit-manager-mcp get_cloud_control` - Get detailed information about a specific cloud control
+- `@assured-workloads-and-audit-manager-mcp create_cloud_control` - Create a custom cloud control
+- `@assured-workloads-and-audit-manager-mcp update_cloud_control` - Update a custom cloud control
+- `@assured-workloads-and-audit-manager-mcp delete_cloud_control` - Delete a custom cloud control
 
 ### Framework Deployment
-- `@compliance-mcp list_framework_deployments` - List framework deployments
-- `@compliance-mcp get_framework_deployment` - Get details of a specific deployment
-- `@compliance-mcp create_framework_deployment` - Deploy a framework to a resource
-- `@compliance-mcp delete_framework_deployment` - Remove a framework deployment
+- `@assured-workloads-and-audit-manager-mcp list_framework_deployments` - List framework deployments
+- `@assured-workloads-and-audit-manager-mcp get_framework_deployment` - Get details of a specific deployment
+- `@assured-workloads-and-audit-manager-mcp create_framework_deployment` - Deploy a framework to a resource
+- `@assured-workloads-and-audit-manager-mcp delete_framework_deployment` - Remove a framework deployment
 
 ### Cloud Control Deployment
-- `@compliance-mcp list_cloud_control_deployments` - List cloud control deployments
-- `@compliance-mcp get_cloud_control_deployment` - Get details of a specific cloud control deployment
+- `@assured-workloads-and-audit-manager-mcp list_cloud_control_deployments` - List cloud control deployments
+- `@assured-workloads-and-audit-manager-mcp get_cloud_control_deployment` - Get details of a specific cloud control deployment
 
 ### Assured Workloads Management
-- `@compliance-mcp create_workload` - Create a new Assured Workload
-- `@compliance-mcp update_workload` - Update an existing Assured Workload
-- `@compliance-mcp restrict_allowed_resources` - Restrict allowed resources for a workload
-- `@compliance-mcp delete_workload` - Delete a workload
-- `@compliance-mcp get_workload` - Get workload details
-- `@compliance-mcp list_workloads` - List workloads
-- `@compliance-mcp list_violations` - List violations for a workload
-- `@compliance-mcp get_violation` - Get violation details
-- `@compliance-mcp acknowledge_violation` - Acknowledge a violation
+- `@assured-workloads-and-audit-manager-mcp create_workload` - Create a new Assured Workload
+- `@assured-workloads-and-audit-manager-mcp update_workload` - Update an existing Assured Workload
+- `@assured-workloads-and-audit-manager-mcp restrict_allowed_resources` - Restrict allowed resources for a workload
+- `@assured-workloads-and-audit-manager-mcp delete_workload` - Delete a workload
+- `@assured-workloads-and-audit-manager-mcp get_workload` - Get workload details
+- `@assured-workloads-and-audit-manager-mcp list_workloads` - List workloads
+- `@assured-workloads-and-audit-manager-mcp list_violations` - List violations for a workload
+- `@assured-workloads-and-audit-manager-mcp get_violation` - Get violation details
+- `@assured-workloads-and-audit-manager-mcp acknowledge_violation` - Acknowledge a violation
+
+### Audit Manager Management
+- `@assured-workloads-and-audit-manager-mcp enroll_resource` - Enroll a resource in Audit Manager
+- `@assured-workloads-and-audit-manager-mcp get_resource_enrollment_status` - Get enrollment status
+- `@assured-workloads-and-audit-manager-mcp list_resource_enrollment_statuses` - List enrollment statuses
+- `@assured-workloads-and-audit-manager-mcp generate_audit_scope_report` - Generate an audit scope report
+- `@assured-workloads-and-audit-manager-mcp generate_audit_report` - Generate a full audit report
+- `@assured-workloads-and-audit-manager-mcp list_audit_reports` - List audit reports
+- `@assured-workloads-and-audit-manager-mcp get_audit_report` - Get details of a specific audit report
 
 ## Example Prompts
 
@@ -174,271 +180,20 @@ A valid billing account must be linked to your organization.
 
 ## Workflows
 
-### Creating and Deploying a Custom Framework
+### Running an Audit Report
+When a user wants to generate an audit report, verify they specify:
+- Scope (Project/Folder/Org)
+- Standard (e.g. NIST_800_53_R4)
+- Destination GCS bucket
 
-Here's the typical workflow for creating and deploying a custom compliance framework:
+If missing, prompt for them.
 
-1. **Discover Available Controls**
-   - List built-in cloud controls: "List all cloud controls in organization YOUR_ORG_ID"
-   - Review what's available and identify gaps
+## Skills
 
-2. **Create Custom Controls (if needed)**
-   - Create custom controls for your specific requirements
-   - Example: "Create a custom cloud control to check for MFA enforcement"
+Skills are specialized prompts and instructions for complex tasks. They are located in the `skills/` directory.
 
-3. **Create a Custom Framework**
-   - Combine built-in and custom controls into a framework
-   - Example: "Create a framework called 'company-security-baseline' with controls X, Y, and Z"
+### Available Skills
 
-4. **Deploy the Framework**
-   - Apply the framework to your resources
-   - Example: "Deploy the company-security-baseline framework to project my-prod-project"
-
-5. **Monitor Compliance**
-   - Check deployment status and review findings
-   - Example: "Show me the status of my framework deployments"
-
-### Example: Creating a Data Residency Framework
-
-```
-User: "I need to create a custom framework for data residency in the EU"
-
-You: "I can help you create a custom framework! Let's start by:
-1. Listing available cloud controls related to data location
-2. Creating any custom controls you need
-3. Combining them into a framework
-4. Deploying it to your resources
-
-What's your organization ID?"
-
-User: "123456789012"
-
-You: "Let me list the available cloud controls first..."
-[calls list_cloud_controls]
-
-You: "I found some built-in controls for data residency. Would you like to:
-- Use only built-in controls, or
-- Create custom controls for specific EU requirements?"
-
-User: "Let's create a custom control for EU-only storage"
-
-You: "I'll create that control for you..."
-[calls create_cloud_control with appropriate parameters]
-
-You: "Great! Now let's create your framework with these controls..."
-[calls create_framework]
-
-You: "Your EU data residency framework is ready! Would you like to deploy it to a project or folder?"
-
-### Example: Running a Compliance Audit
-
-```
-User: "I need to generate a FEDRAMP audit report for my project"
-
-You: "I can help with that. To generate the FEDRAMP audit report, I need the following information:
-
-   * What is the project ID?
-   * What is the destination GCS bucket URI (e.g., gs://your-bucket-name)?
-   * Which FEDRAMP compliance standard do you need (e.g., FEDRAMP_MODERATE)?"
-
-User: "my-secure-project, my-test-bucket, FEDRAMP_MODERATE"
-[calls generate_audit_report with scope=projects/my-secure-project, standard=FEDRAMP_MODERATE and will store the result in thr my-test-bucket]
-
-You: "The report generation has started! You can check the status using the operation ID."
-```
-```
-
-### Example: Managing Assured Workloads and Violations
-
-```
-User: "Check if there are any violations in my Assured Workloads"
-
-You: "I can help you check for violations! First, let's list your workloads to identify the one you want to check. What is your organization ID and location (e.g., us-central1)?"
-
-User: "Organization is 123456789012, use us-central1"
-
-You: "Let me list the workloads in us-central1..."
-[calls list_workloads]
-
-You: "I found a workload: 'fedramp-prod' (ID: workload-123). Let me check for violations..."
-[calls list_violations for workload-123]
-
-You: "I found a violation related to Org Policy 'restrictServiceUsage'. The state is ACTIVE. Would you like me to acknowledge it?"
-```
-
-## Creating Custom Cloud Controls with CEL Expressions
-
-Custom cloud controls use Common Expression Language (CEL) to define detection logic. Here's what you need to know:
-
-### CEL Expression Requirements
-
-1. **Must return boolean FALSE to trigger a finding**
-   - If the expression evaluates to `false`, a finding is created
-   - If it evaluates to `true`, the resource is compliant
-
-2. **Resource Type**
-   - Must be a valid Cloud Asset Inventory resource type
-   - Examples: `compute.googleapis.com/Instance`, `storage.googleapis.com/Bucket`, `sqladmin.googleapis.com/Instance`
-
-3. **CEL Syntax Rules**
-   - All enums must be represented as strings
-   - Use `has()` to check if a field exists before accessing it
-   - Properties must match the Cloud Asset Inventory API definition
-
-### Common CEL Operators and Functions
-
-- **Comparison**: `==`, `!=`, `<`, `>`, `<=`, `>=`
-- **Logical**: `&&` (and), `||` (or), `!` (not)
-- **String functions**: `matches(regex)`, `contains(substring)`
-- **Collection functions**: `exists(var, condition)`, `all(var, condition)`
-- **Field checking**: `has(field)`
-- **Duration**: `duration('7776000s')` for time periods
-
-### Example CEL Expressions by Use Case
-
-**Compute Engine - Secure Boot**
-```cel
-has(resource.data.shieldedInstanceConfig) && resource.data.shieldedInstanceConfig.enableSecureBoot
-```
-
-**Cloud KMS - Key Rotation (90 days)**
-```cel
-has(resource.data.rotationPeriod) && resource.data.rotationPeriod <= duration('7776000s')
-```
-
-**Cloud Storage - Public Access Prevention**
-```cel
-!(resource.data.iamConfiguration.publicAccessPrevention == 'ENFORCED')
-```
-
-**Cloud SQL - No Public IP**
-```cel
-!(resource.data.settings.ipConfiguration.ipv4Enabled)
-```
-
-**Resource Naming Convention**
-```cel
-resource.data.name.matches('^gcp-vm-(linux|windows)-v\\d+$')
-```
-
-**VPC Network - Peering Check**
-```cel
-resource.data.selfLink.matches('https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/networks/default') || resource.data.peerings.exists(p, p.network.matches('https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/networks/shared$'))
-```
-
-**Service Usage - Allowlist APIs**
-```cel
-resource.data.state == 'ENABLED' && !(resource.data.name.matches('storage-api.googleapis.com') || resource.data.name.matches('bigquery.googleapis.com'))
-```
-
-**Dataproc - Environment Check**
-```cel
-has(resource.data.projectId) && !resource.data.projectId.contains('testing') || !resource.data.projectId.contains('development')
-```
-
-### Helping Users Write CEL Expressions
-
-When a user asks to create a custom cloud control:
-
-1. **Identify the resource type** they want to check
-2. **Understand the requirement** (what should be true/false)
-3. **Craft the CEL expression** that returns FALSE when non-compliant
-4. **Suggest appropriate severity** (CRITICAL, HIGH, MEDIUM, LOW)
-5. **Provide remediation instructions**
-
-Example conversation:
-```
-User: "Create a control to check if VMs have encryption enabled"
-
-You: "I'll help you create a custom cloud control for VM encryption.
-For Compute Engine instances, we can check if they use customer-managed encryption keys (CMEK).
-
-Here's what I'll create:
-- Resource type: compute.googleapis.com/Disk
-- CEL expression: has(resource.data.diskEncryptionKey) && resource.data.diskEncryptionKey.kmsKeyName != ''
-- This checks if disks have a KMS key configured
-
-Would you like me to proceed with this configuration?"
-```
-
-## Resource Format
-
-When using these tools, resources follow these formats:
-- Organization: `organizations/{org_id}`
-- Folder: `folders/{folder_id}`
-- Project: `projects/{project_id}`
-
-## Safety Notes
-
-- Framework deployments are long-running operations that may take time to complete
-- Deleting a framework deployment removes compliance controls from the target resource
-- Always verify the target resource before creating or deleting deployments
-- Use read-only operations (list/get) to explore before making changes
-
-## Common Issues and Solutions
-
-### "Compliance Manager is not enabled"
-**Solution:** Guide the user to enable Compliance Manager:
-1. Verify they have Security Command Center Enterprise tier
-2. Direct them to https://console.cloud.google.com/security/compliance-manager
-3. Help them enable Compliance Manager for their organization
-4. Provide the enablement steps listed in the Prerequisites section above
-
-### "Permission denied" errors
-**Solution:**
-- Verify the user has the required IAM roles
-- Check they're using the correct organization ID
-- Ensure they're authenticated with `gcloud auth application-default login`
-
-### "No frameworks found"
-**Solution:**
-- Confirm Compliance Manager is enabled
-- Verify the organization ID is correct
-- Check that the user has at least viewer permissions
-
-### "Framework deployment fails"
-**Solution:**
-- Ensure the target resource (project/folder/organization) exists
-- Verify the user has deployment permissions
-- Check that the framework ID is correct
-- Note that deployments are long-running operations (may take several minutes)
-
-## Helping Users Enable Compliance Manager
-
-When a user asks for help enabling Compliance Manager, provide:
-
-1. **Check Current Status**: Ask them to verify if they have Security Command Center Enterprise
-2. **Step-by-Step Guide**: Walk them through the enablement process
-3. **Prerequisites**: Ensure they have organization-level access
-4. **Verification**: Help them confirm it's enabled by listing frameworks
-5. **Next Steps**: Once enabled, guide them to explore available frameworks
-
-**Example conversation flow:**
-```
-User: "How do I enable Compliance Manager?"
-
-You: "I can help you enable Compliance Manager! First, do you have Security Command Center Enterprise tier enabled?"
-
-User: "I'm not sure"
-
-You: "Let me guide you through the process:
-
-1. First, go to https://console.cloud.google.com/security/command-center
-2. Select your organization
-3. Check if you see 'Enterprise' tier - if not, you'll need to upgrade
-4. Then navigate to https://console.cloud.google.com/security/compliance-manager
-5. Click 'Enable Compliance Manager'
-6. Once enabled, I can help you list available frameworks with: list_frameworks"
-
-User: "It's enabled now!"
-
-You: "Great! Let's verify by listing the available frameworks. What's your organization ID?"
-```
-
-## More Information
-
-For detailed documentation, see:
-- [Enable Compliance Manager](https://cloud.google.com/security-command-center/docs/compliance-manager-enable)
-- [Compliance Manager Overview](https://cloud.google.com/security-command-center/docs/compliance-manager-overview)
-- [Security Command Center Enterprise](https://cloud.google.com/security-command-center/docs/security-command-center-enterprise-overview)
-- [MCP Server Repository](https://github.com/vb30/Compliance-Manager-MCP-Server)
+- **analyze-audit-reports**: Summarize control states and analyze violations across frameworks.
+- **run-audit-helper**: Guide users through generating audit reports, ensuring all parameters are gathered.
+- **org-policy-remediation**: Safely fix organization policy violations by presenting scope and impact before proceeding.

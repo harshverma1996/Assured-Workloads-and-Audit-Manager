@@ -56,7 +56,7 @@ from google.protobuf import json_format
 from mcp.server.fastmcp import FastMCP
 
 # Initialize FastMCP server
-mcp = FastMCP("compliance-mcp")
+mcp = FastMCP("assured-workloads-and-audit-manager-mcp")
 
 # Configure logging
 # IMPORTANT: MCP requires stdout to be clean JSON only
@@ -67,7 +67,7 @@ logging.basicConfig(
     stream=sys.stderr,  # Send all logs to stderr, not stdout
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
-logger = logging.getLogger("compliance-mcp")
+logger = logging.getLogger("assured-workloads-and-audit-manager-mcp")
 logger.setLevel(logging.INFO)
 
 # --- Client Initialization ---

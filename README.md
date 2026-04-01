@@ -1,15 +1,12 @@
-# Compliance Gemini CLI Extension
+# Assured Workloads & Audit Manager Gemini CLI Extension
 
-A Gemini CLI extension for Google Cloud Compliance Manager (Security Command Center Enterprise) and Audit Manager.
+A Gemini CLI extension for Google Cloud Assured Workloads and Audit Manager.
 
 ## What It Does
 
-Talk to Gemini CLI in natural language to manage compliance frameworks and controls in your Google Cloud organization:
-- **Discover**: List and inspect built-in compliance frameworks (CIS, NIST, FedRAMP, etc.)
-- **Create**: Build custom cloud controls and frameworks for your specific requirements
-- **Deploy**: Apply frameworks to organizations, folders, or projects
-- **Monitor**: Track compliance deployments and findings
-- **Assured Workloads**: Create and manage regulated environments (FedRAMP, IL4/5, CJIS, etc.) and monitor violations.
+Talk to Gemini CLI in natural language to manage your regulated cloud environments and compliance audits:
+- **Assured Workloads**: Create and manage regulated environments (NIST, PCI DSS, etc.) and monitor violations.
+- **Audit Manager**: Enroll resources, generate compliance reports, and analyze report findings.
 
 ## Installation
 
@@ -30,8 +27,8 @@ Talk to Gemini CLI in natural language to manage compliance frameworks and contr
 ### Install
 
 ```bash
-git clone https://github.com/vb30/Compliance-Manager-Gemini-CLI-Extension.git
-cd Compliance-Manager-Gemini-CLI-Extension
+git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
+cd Assured-Workloads-and-Audit-Manager
 chmod +x install.sh
 ./install.sh
 ```
@@ -39,7 +36,7 @@ chmod +x install.sh
 That's it! The script will:
 - Create a virtual environment with Python's built-in venv
 - Install dependencies using pip (no need for uv or other tools)
-- Set up the extension in `~/.gemini/extensions/compliance`
+- Set up the extension in `~/.gemini/extensions/assured-workloads-and-audit-manager`
 
 ### Alternative: Manual Installation with pip
 
@@ -47,21 +44,21 @@ If you prefer to install manually or use pip directly:
 
 ```bash
 # Clone the repository
-git clone https://github.com/vb30/Compliance-Manager-Gemini-CLI-Extension.git
-cd Compliance-Manager-Gemini-CLI-Extension
+git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
+cd Assured-Workloads-and-Audit-Manager
 
 # Create extension directory
-mkdir -p ~/.gemini/extensions/compliance
+mkdir -p ~/.gemini/extensions/assured-workloads-and-audit-manager
 
 # Create virtual environment
-python3 -m venv ~/.gemini/extensions/compliance/.venv
+python3 -m venv ~/.gemini/extensions/assured-workloads-and-audit-manager/.venv
 
 # Install dependencies using requirements.txt
-~/.gemini/extensions/compliance/.venv/bin/pip install -r requirements.txt
+~/.gemini/extensions/assured-workloads-and-audit-manager/.venv/bin/pip install -r requirements.txt
 
 # Copy files
-cp compliance_mcp.py ~/.gemini/extensions/compliance/
-cp GEMINI.md ~/.gemini/extensions/compliance/
+cp assured_workloads_and_audit_manager_mcp.py ~/.gemini/extensions/assured-workloads-and-audit-manager/
+cp GEMINI.md ~/.gemini/extensions/assured-workloads-and-audit-manager/
 
 # Create run script and config (see install.sh for details)
 ```
@@ -76,77 +73,56 @@ gemini
 
 ### Example Conversations
 
-**Discovery:**
-```
-> List all compliance frameworks in organization 123456789012
-
-> Show me details of the CIS framework
-
-> What cloud controls are available?
-```
-
-**Creating Custom Controls:**
-```
-> Create a custom cloud control to check for public bucket access
-
-> I need a control to verify MFA is enabled
-
-> Build a custom control for data residency requirements
-```
-
-**Creating Custom Frameworks:**
-```
-> Create a framework called "company-security-baseline" with CIS and custom controls
-
-> Build a custom framework for EU data residency compliance
-
-> Combine NIST and FedRAMP controls into a new framework
-```
-
-**Deployment:**
-```
-> Deploy the NIST framework to project my-project-id
-
-> Apply my custom framework to the production folder
-
-> What frameworks are currently deployed?
-```
-
 **Assured Workloads:**
 ```
 > List all Assured Workloads in us-central1
 
 > Show violations for workload 'my-workload-id'
 
-> Create a FedRAMP Moderate workload
+> Create a FedRAMP Moderate workload in us-central1
+```
+
+**Audit Manager:**
+```
+> Enroll project my-project in Audit Manager
+
+> Check enrollment status for organization 123456789
+
+> Generate a PCI DSS 4.0 audit report for project my-project
+
+> List all audit reports in project my-project
 ```
 
 The extension understands natural language - just ask what you need!
+
+## Advanced Skills
+
+The extension includes specialized "skills" for complex workflows. These are stored in the `skills/` directory and provide guided instructions for the AI:
+
+- **Analyze Audit Reports**: Summarize state changes and violations across frameworks in a given audit scope.
+- **Audit Helper**: Interactive guide for gathering parameters to generate audit reports.
+- **Organization Policy Remediation**: Guided remediation for policy violations with impact assessment for a given assured workload violation.
+
+To use these skills, simply ask Gemini CLI about these topics naturally!
 
 ## Requirements
 
 ### Before You Start
 
-**Compliance Manager must be enabled** in your Google Cloud organization:
+To use the Assured Workloads and Audit Manager tools, you must meet the following requirements:
 
-1. You need **Security Command Center Enterprise** tier
-2. Enable Compliance Manager at: https://console.cloud.google.com/security/compliance-manager
-3. See the [enablement guide](https://cloud.google.com/security-command-center/docs/compliance-manager-enable)
-
-**Need help enabling?** Just ask the extension: "How do I enable Compliance Manager?"
-
-### IAM Permissions
-
-You need one of these roles on your GCP organization:
-- `roles/securitycenter.complianceManager` (full access)
-- `roles/securitycenter.adminEditor` (full access)
-- `roles/securitycenter.adminViewer` (read-only)
+1. **Google Cloud Organization**: You must have an active Google Cloud Organization.
+2. **Billing Account**: A valid billing account must be linked to your organization.
+3. **API Enablement**: Enable `assuredworkloads.googleapis.com` and `auditmanager.googleapis.com`.
+4. **IAM Roles**:
+   - For Assured Workloads: `roles/assuredworkloads.admin`, `roles/resourcemanager.organizationViewer`.
+   - For Audit Manager: `roles/auditmanager.admin` or `roles/auditmanager.auditor`.
 
 ## Troubleshooting
 
 **Extension not loading?**
 ```bash
-ls -la ~/.gemini/extensions/compliance/
+ls -la ~/.gemini/extensions/assured-workloads-and-audit-manager/
 ```
 
 **Authentication issues?**
@@ -156,7 +132,7 @@ gcloud auth application-default print-access-token
 
 **Need to reinstall?**
 ```bash
-rm -rf ~/.gemini/extensions/compliance
+rm -rf ~/.gemini/extensions/assured-workloads-and-audit-manager
 ./install.sh
 ```
 
@@ -170,5 +146,4 @@ Apache 2.0
 - [Compliance Manager Documentation](https://cloud.google.com/security-command-center/docs/compliance-manager-overview)
 - [Assured Workloads Documentation](https://docs.cloud.google.com/assured-workloads/docs/overview)
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli)
-- [Report Issues](https://github.com/vb30/Compliance-Manager-Gemini-CLI-Extension/issues)
 

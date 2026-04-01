@@ -1,9 +1,9 @@
 {
-  "name": "compliance",
+  "name": "assured-workloads-and-audit-manager",
   "version": "1.0.0",
-  "description": "Google Cloud Audit and Compliance Manager for Gemini CLI",
+  "description": "Google Cloud Assured Workloads and Audit Manager extension for Gemini CLI",
   "mcpServers": {
-    "compliance-mcp": {
+    "assured-workloads-and-audit-manager-mcp": {
       "command": "run_mcp.sh",
       "args": ["--alsologtostderr"],
       "env": {}
