@@ -19,7 +19,12 @@ Talk to Gemini CLI in natural language to manage your regulated cloud environmen
 
 2. **Python 3.11+** (check with `python3 --version`)
 
-3. **Google Cloud Authentication**
+3. **Set Quota Project**
+   ```bash
+   export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
+   ```
+
+4. **Google Cloud Authentication**
    ```bash
    gcloud auth application-default login
    ```
@@ -146,4 +151,5 @@ Apache 2.0
 - [Compliance Manager Documentation](https://cloud.google.com/security-command-center/docs/compliance-manager-overview)
 - [Assured Workloads Documentation](https://docs.cloud.google.com/assured-workloads/docs/overview)
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+- [gcloud] (https://docs.cloud.google.com/sdk/docs/install-sdk)
 
