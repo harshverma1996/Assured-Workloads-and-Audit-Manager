@@ -1145,7 +1145,7 @@ def get_resource_enrollment_status(
 
     Description: Gets the enrollment status of a resource.
     Parameters:
-    parent (required): The parent scope. Format: 'organizations/<org_id>' or 'folders/<folder_id>' or 'projects/<project_id>'.
+    parent (required): The parent scope for which enrollment status is to be fetched. Format: 'organizations/<org_id>' or 'folders/<folder_id>' or 'projects/<project_id>'.
     location (optional): The location of the resource. Defaults to "global".
     """
     if not audit_manager_client:

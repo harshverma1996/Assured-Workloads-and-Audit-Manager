@@ -49,7 +49,7 @@ Present the following list of explicit frameworks to the user and ask them to se
 
 ### If GCS Bucket is Missing (And Goal is Audit Report):
 1.  Identify the target scope (Project, Folder, or Organization). If not provided, ask the user for it.
-2.  Call `get_resource_enrollment_status(parent=...)` tool in `assured-workloads-and-audit-manager-mcp` for that scope.
+2.  Call `get_resource_enrollment_status(parent=...)` tool in `assured-workloads-and-audit-manager-mcp` with the identified scope as parent.
 3.  Examine the output for enrolled destinations. Look for fields such as `destinations`, `eligibleDestinations`, or `gcsBuckets`.
     *   These fields will typically contain GCS bucket URIs (e.g., `gs://my-bucket`).
 4.  **Present Enrolled Buckets**: Present these buckets to the user and ask them to select one.
