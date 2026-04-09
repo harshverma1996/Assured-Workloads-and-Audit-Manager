@@ -33,7 +33,7 @@ Talk to Gemini CLI in natural language to manage your regulated cloud environmen
 
 ```bash
 git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
-cd Assured-Workloads-and-Audit-Manager
+cd assured-workloads-and-audit-manager
 chmod +x install.sh
 ./install.sh
 ```
@@ -50,7 +50,7 @@ If you prefer to install manually or use pip directly:
 ```bash
 # Clone the repository
 git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
-cd Assured-Workloads-and-Audit-Manager
+cd assured-workloads-and-audit-manager
 
 # Create extension directory
 mkdir -p ~/.gemini/extensions/assured-workloads-and-audit-manager
@@ -118,10 +118,38 @@ To use the Assured Workloads and Audit Manager tools, you must meet the followin
 
 1. **Google Cloud Organization**: You must have an active Google Cloud Organization.
 2. **Billing Account**: A valid billing account must be linked to your organization.
-3. **API Enablement**: Enable `assuredworkloads.googleapis.com` and `auditmanager.googleapis.com`.
-4. **IAM Roles**:
-   - For Assured Workloads: `roles/assuredworkloads.admin`, `roles/resourcemanager.organizationViewer`.
-   - For Audit Manager: `roles/auditmanager.admin` or `roles/auditmanager.auditor`.
+3. **API Enablement**: Enable the following APIs:
+   For Assured Workloads:
+      - `assuredworkloads.googleapis.com`
+      - `cloudasset.googleapis.com`
+      - `orgpolicy.googleapis.com`
+   For Audit Manager:
+      - `auditmanager.googleapis.com`
+   You can simply run:
+   ```bash
+      gcloud services enable \
+         assuredworkloads.googleapis.com \
+         cloudasset.googleapis.com \
+         orgpolicy.googleapis.com \
+         auditmanager.googleapis.com
+   ```
+4. **IAM Roles & permissions**:
+   - For Assured Workloads:
+      - Roles: `roles/assuredworkloads.admin`, `roles/resourcemanager.organizationViewer`.
+      - Permissions: `cloudasset.assets.searchAllResources`
+   - For Audit Manager:
+      - Roles: `roles/auditmanager.admin` or `roles/auditmanager.auditor`.
+   You can simply run:
+   ```bash
+      # Replace YOUR_ORGANIZATION_ID and YOUR_EMAIL
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/assuredworkloads.admin
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/resourcemanager.organizationViewer
+      # `cloudasset.assets.searchAllResources` permission is included in `roles/cloudasset.viewer`.
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/cloudasset.viewer
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/auditmanager.admin
+      # OR
+      # gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/auditmanager.auditor
+   ```
 
 ## Troubleshooting
 
