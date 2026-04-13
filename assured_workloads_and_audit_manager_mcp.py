@@ -988,12 +988,20 @@ def generate_audit_scope_report(
     logger.info(f"Generating audit scope report for scope: {scope}, compliance_standard: {compliance_standard}")
 
     try:
-        request = auditmanager_v1.GenerateAuditScopeReportRequest(
-            scope=scope,
-            compliance_standard=compliance_standard,
-            report_format=auditmanager_v1.GenerateAuditScopeReportRequest.AuditScopeReportFormat.AUDIT_SCOPE_REPORT_FORMAT_ODF,
-        )
-
+        request = None
+        # Handle both CSC(post unified audit) & SPC based(current experience) frameworks
+        if '/frameworks/' in compliance_standard:
+            request = auditmanager_v1.GenerateAuditScopeReportRequest(
+                scope=scope,
+                compliance_framework=compliance_standard,
+                report_format=auditmanager_v1.GenerateAuditScopeReportRequest.AuditScopeReportFormat.AUDIT_SCOPE_REPORT_FORMAT_ODF,
+            )
+        else:
+            request = auditmanager_v1.GenerateAuditScopeReportRequest(
+                scope=scope,
+                compliance_standard=compliance_standard,
+                report_format=auditmanager_v1.GenerateAuditScopeReportRequest.AuditScopeReportFormat.AUDIT_SCOPE_REPORT_FORMAT_ODF,
+            )
         response = audit_manager_client.generate_audit_scope_report(request=request)
         return proto_message_to_dict(response)
 
@@ -1028,12 +1036,22 @@ def generate_audit_report(
     logger.info(f"Generating audit report for scope: {scope} to {gcs_uri}")
 
     try:
-        request = auditmanager_v1.GenerateAuditReportRequest(
-            scope=scope,
-            gcs_uri=gcs_uri,
-            compliance_standard=compliance_standard,
-            report_format=auditmanager_v1.GenerateAuditReportRequest.AuditReportFormat.AUDIT_REPORT_FORMAT_ODF,
-        )
+        request = None
+        # Handle both CSC(post unified audit) & SPC based(current experience) frameworks
+        if '/frameworks/' in compliance_standard:
+            request = auditmanager_v1.GenerateAuditReportRequest(
+                scope=scope,
+                gcs_uri=gcs_uri,
+                compliance_framework=compliance_standard,
+                report_format=auditmanager_v1.GenerateAuditReportRequest.AuditReportFormat.AUDIT_REPORT_FORMAT_ODF,
+            )
+        else:
+            request = auditmanager_v1.GenerateAuditReportRequest(
+                scope=scope,
+                gcs_uri=gcs_uri,
+                compliance_standard=compliance_standard,
+                report_format=auditmanager_v1.GenerateAuditReportRequest.AuditReportFormat.AUDIT_REPORT_FORMAT_ODF,
+            )
 
         operation = audit_manager_client.generate_audit_report(request=request)
         # Return the operation name so the user can check status if needed.
@@ -1054,18 +1072,18 @@ def generate_audit_report(
 @mcp.tool()
 def list_audit_reports(
     parent: str,
+    location: str,
     page_size: int = 50,
     page_token: str = "",
-    location: str = "global",
 ) -> Dict[str, Any]:
     """Name: list_audit_reports
 
     Description: Lists audit reports.
     Parameters:
     parent (required): The parent scope. Format: 'organizations/<organization_id>', 'folders/<folder_id>' or 'projects/<project_id>'.
+    location (required): The location of the resource.
     page_size (optional): Maximum number of results to return. Defaults to 50.
     page_token (optional): Token to get the next page.
-    location (optional): The location of the resource. Defaults to "global".
     """
     if not audit_manager_client:
         return {"error": "Audit Manager Client not initialized"}
@@ -1104,7 +1122,7 @@ def list_audit_reports(
 def get_audit_report(
     parent: str,
     audit_report_id: str,
-    location: str = "global",
+    location: str,
 ) -> Dict[str, Any]:
     """Name: get_audit_report
 
@@ -1112,7 +1130,7 @@ def get_audit_report(
     Parameters:
     parent (required): The parent scope. Format: 'folders/<folder_id>' or 'projects/<project_id>'.
     audit_report_id (required): The ID of the audit report to retrieve.
-    location (optional): The location of the resource. Defaults to "global".
+    location (required): The location of the resource.
     """
     if not audit_manager_client:
         return {"error": "Audit Manager Client not initialized"}

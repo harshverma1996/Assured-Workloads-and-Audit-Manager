@@ -119,11 +119,11 @@ To use the Assured Workloads and Audit Manager tools, you must meet the followin
 1. **Google Cloud Organization**: You must have an active Google Cloud Organization.
 2. **Billing Account**: A valid billing account must be linked to your organization.
 3. **API Enablement**: Enable the following APIs:
-   For Assured Workloads:
+   - Assured Workloads:
       - `assuredworkloads.googleapis.com`
       - `cloudasset.googleapis.com`
       - `orgpolicy.googleapis.com`
-   For Audit Manager:
+   - Audit Manager:
       - `auditmanager.googleapis.com`
    You can simply run:
    ```bash
@@ -134,10 +134,10 @@ To use the Assured Workloads and Audit Manager tools, you must meet the followin
          auditmanager.googleapis.com
    ```
 4. **IAM Roles & permissions**:
-   - For Assured Workloads:
+   - Assured Workloads:
       - Roles: `roles/assuredworkloads.admin`, `roles/resourcemanager.organizationViewer`.
       - Permissions: `cloudasset.assets.searchAllResources`
-   - For Audit Manager:
+   - Audit Manager:
       - Roles: `roles/auditmanager.admin` or `roles/auditmanager.auditor`.
    You can simply run:
    ```bash
