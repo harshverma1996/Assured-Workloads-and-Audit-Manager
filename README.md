@@ -125,6 +125,7 @@ To use the Assured Workloads and Audit Manager tools, you must meet the followin
       - `orgpolicy.googleapis.com`
    - Audit Manager:
       - `auditmanager.googleapis.com`
+
    You can simply run:
    ```bash
       gcloud services enable \
@@ -139,6 +140,7 @@ To use the Assured Workloads and Audit Manager tools, you must meet the followin
       - Permissions: `cloudasset.assets.searchAllResources`
    - Audit Manager:
       - Roles: `roles/auditmanager.admin` or `roles/auditmanager.auditor`.
+
    You can simply run:
    ```bash
       # Replace YOUR_ORGANIZATION_ID and YOUR_EMAIL
