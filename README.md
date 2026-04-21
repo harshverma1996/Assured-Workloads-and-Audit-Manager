@@ -32,8 +32,8 @@ Talk to Gemini CLI in natural language to manage your regulated cloud environmen
 ### Install
 
 ```bash
-git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
-cd assured-workloads-and-audit-manager
+git clone https://github.com/harshverma1996/Assured-Workloads-and-Audit-Manager.git
+cd Assured-Workloads-and-Audit-Manager
 chmod +x install.sh
 ./install.sh
 ```
@@ -49,8 +49,8 @@ If you prefer to install manually or use pip directly:
 
 ```bash
 # Clone the repository
-git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
-cd assured-workloads-and-audit-manager
+git clone https://github.com/harshverma1996/Assured-Workloads-and-Audit-Manager.git
+cd Assured-Workloads-and-Audit-Manager
 
 # Create extension directory
 mkdir -p ~/.gemini/extensions/assured-workloads-and-audit-manager
