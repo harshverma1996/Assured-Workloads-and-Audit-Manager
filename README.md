@@ -21,7 +21,7 @@ Talk to Gemini CLI in natural language to manage your regulated cloud environmen
 
 3. **Set Quota Project**
    ```bash
-   export GOOGLE_CLOUD_PROJECT="YOUR_PROJECT_ID"
+   gcloud auth application-default set-quota-project PROJECT_ID
    ```
 
 4. **Google Cloud Authentication**
