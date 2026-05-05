@@ -8,9 +8,12 @@ Talk to Gemini CLI in natural language to manage your regulated cloud environmen
 - **Assured Workloads**: Create and manage regulated environments (NIST, PCI DSS, etc.) and monitor violations.
 - **Audit Manager**: Enroll resources, generate compliance reports, and analyze report findings.
 
-## Installation
+---
 
-### Prerequisites
+## Prerequisites & Setup
+
+### 1. System Requirements & Authentication
+Before starting Gemini CLI, ensure your local environment is configured:
 
 1. **Gemini CLI**
    ```bash
@@ -29,7 +32,59 @@ Talk to Gemini CLI in natural language to manage your regulated cloud environmen
    gcloud auth application-default login
    ```
 
-### Install
+### 2. Google Cloud Requirements
+To use the Assured Workloads and Audit Manager tools, you must meet the following requirements:
+
+1. **Google Cloud Organization**: You must have an active Google Cloud Organization.
+2. **Billing Account**: A valid billing account must be linked to your organization.
+3. **API Enablement**: Enable the following APIs:
+   - **For Assured Workloads:**
+      - *assuredworkloads.googleapis.com*
+      - *cloudasset.googleapis.com*
+      - *orgpolicy.googleapis.com*
+
+      ```bash
+      gcloud services enable \
+         assuredworkloads.googleapis.com \
+         cloudasset.googleapis.com \
+         orgpolicy.googleapis.com
+      ```
+   - **For Audit Manager:**
+      - *auditmanager.googleapis.com*
+
+      ```bash
+      gcloud services enable auditmanager.googleapis.com
+      ```
+4. **IAM Roles & permissions**:
+   - **For Assured Workloads:**
+      - Roles:
+         - *roles/assuredworkloads.admin*
+         - *roles/resourcemanager.organizationViewer*
+      - Permissions:
+         - *cloudasset.assets.searchAllResources* (Included in *roles/cloudasset.viewer*)
+
+      ```bash
+      # Replace YOUR_ORGANIZATION_ID and YOUR_EMAIL
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/assuredworkloads.admin
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/resourcemanager.organizationViewer
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/cloudasset.viewer
+      ```
+   - **For Audit Manager:**
+      - Roles:
+         - *roles/auditmanager.admin* or *roles/auditmanager.auditor.*
+
+      ```bash
+      # Replace YOUR_ORGANIZATION_ID and YOUR_EMAIL
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/auditmanager.admin
+      # OR
+      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/auditmanager.auditor
+      ```
+
+---
+
+## Installation
+
+### Automated Install (Recommended)
 
 ```bash
 git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
@@ -43,7 +98,8 @@ That's it! The script will:
 - Install dependencies using pip (no need for uv or other tools)
 - Set up the extension in `~/.gemini/extensions/assured-workloads-and-audit-manager`
 
-### Alternative: Manual Installation with pip
+<details>
+<summary><b>Alternative: Manual Installation with pip</b></summary>
 
 If you prefer to install manually or use pip directly:
 
@@ -67,6 +123,9 @@ cp GEMINI.md ~/.gemini/extensions/assured-workloads-and-audit-manager/
 
 # Create run script and config (see install.sh for details)
 ```
+</details>
+
+---
 
 ## Usage
 
@@ -79,26 +138,32 @@ gemini
 ### Example Conversations
 
 **Assured Workloads:**
-```
-> List all Assured Workloads in us-central1
 
-> Show violations for workload 'my-workload-id'
+```text
+List all Assured Workloads in organization 123456789 for region us-central1
 
-> Create a FedRAMP Moderate workload in us-central1
+Show violations for workload 'my-workload-id'
+
+Create a FedRAMP Moderate workload in us-central1
 ```
 
 **Audit Manager:**
-```
-> Enroll project my-project in Audit Manager
 
-> Check enrollment status for organization 123456789
+```text
+Enroll project my-project in Audit Manager
 
-> Generate a PCI DSS 4.0 audit report for project my-project
+Check enrollment status for organization 123456789
 
-> List all audit reports in project my-project
+Generate a PCI DSS 4.0 audit report for project my-project
+
+List all audit reports in project my-project
 ```
 
 The extension understands natural language - just ask what you need!
+
+> 📖 For a full list of commands, custom CEL policy guides, and AI tips, please see the **Usage Guide.**
+
+---
 
 ## Advanced Skills
 
@@ -110,48 +175,7 @@ The extension includes specialized "skills" for complex workflows. These are sto
 
 To use these skills, simply ask Gemini CLI about these topics naturally!
 
-## Requirements
-
-### Before You Start
-
-To use the Assured Workloads and Audit Manager tools, you must meet the following requirements:
-
-1. **Google Cloud Organization**: You must have an active Google Cloud Organization.
-2. **Billing Account**: A valid billing account must be linked to your organization.
-3. **API Enablement**: Enable the following APIs:
-   - Assured Workloads:
-      - `assuredworkloads.googleapis.com`
-      - `cloudasset.googleapis.com`
-      - `orgpolicy.googleapis.com`
-   - Audit Manager:
-      - `auditmanager.googleapis.com`
-
-   You can simply run:
-   ```bash
-      gcloud services enable \
-         assuredworkloads.googleapis.com \
-         cloudasset.googleapis.com \
-         orgpolicy.googleapis.com \
-         auditmanager.googleapis.com
-   ```
-4. **IAM Roles & permissions**:
-   - Assured Workloads:
-      - Roles: `roles/assuredworkloads.admin`, `roles/resourcemanager.organizationViewer`.
-      - Permissions: `cloudasset.assets.searchAllResources`
-   - Audit Manager:
-      - Roles: `roles/auditmanager.admin` or `roles/auditmanager.auditor`.
-
-   You can simply run:
-   ```bash
-      # Replace YOUR_ORGANIZATION_ID and YOUR_EMAIL
-      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/assuredworkloads.admin
-      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/resourcemanager.organizationViewer
-      # `cloudasset.assets.searchAllResources` permission is included in `roles/cloudasset.viewer`.
-      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/cloudasset.viewer
-      gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/auditmanager.admin
-      # OR
-      # gcloud organizations add-iam-policy-binding YOUR_ORGANIZATION_ID --member=user:YOUR_EMAIL --role=roles/auditmanager.auditor
-   ```
+---
 
 ## Troubleshooting
 
@@ -171,6 +195,8 @@ rm -rf ~/.gemini/extensions/assured-workloads-and-audit-manager
 ./install.sh
 ```
 
+---
+
 ## License
 
 Apache 2.0
@@ -181,5 +207,4 @@ Apache 2.0
 - [Compliance Manager Documentation](https://cloud.google.com/security-command-center/docs/compliance-manager-overview)
 - [Assured Workloads Documentation](https://docs.cloud.google.com/assured-workloads/docs/overview)
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli)
-- [gcloud] (https://docs.cloud.google.com/sdk/docs/install-sdk)
-
+- [gcloud SDK](https://docs.cloud.google.com/sdk/docs/install-sdk)

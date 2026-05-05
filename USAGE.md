@@ -2,7 +2,10 @@
 
 This guide covers how to use natural language to manage regulated cloud environments, run compliance audits, and deploy security frameworks via the Gemini CLI.
 
-*(Note: Before using these commands, ensure you have completed the setup and authentication steps in the README).*
+> **Note:**
+>
+> * Before using these commands, ensure you have completed the setup and authentication steps in the README.
+> * When trying the examples below, remember to replace placeholders like `[ORGANIZATION_ID]` and `[PROJECT_ID]` with your actual Google Cloud IDs.
 
 ---
 
@@ -34,11 +37,21 @@ Can you explain what Security Command Center Enterprise is?
 I'm getting permission denied errors, what should I do?
 ```
 
+### Follow-Up Questions (Conversational Chaining)
+Gemini remembers your current session. You don't need to repeat IDs if you are having a continuous conversation:
+
+```text
+You: List all Assured Workloads in us-central1
+Gemini:[Lists active workloads]
+
+You: Show me the violations for the second one
+Gemini:[Shows violations for that specific workload]
+```
 ---
 
 ## 2. Compliance Frameworks & Controls
 
-You can explore, create, and deploy compliance frameworks across your environment. *(Note: Replace `[ORGANIZATION_ID]` and `[PROJECT_ID]` with your actual IDs).*
+You can explore, create, and deploy compliance frameworks across your environment.
 
 ### Exploring Frameworks & Controls
 ```text
@@ -140,21 +153,11 @@ Audit Manager simplifies your compliance process by allowing you to run automate
 ```text
 Enroll project [PROJECT_ID] in Audit Manager
 
-Check enrollment status for organization [ORGANIZATION_ID]
+Check enrollment status for organization[ORGANIZATION_ID]
 
 Generate a PCI DSS 4.0 audit report for project [PROJECT_ID]
 
 List all audit reports in my project
-```
-
-### Built-in AI Skills
-The extension includes interactive workflows for complex tasks. Prompt Gemini naturally to trigger them:
-```text
-Summarize the state changes and violations across frameworks in my latest audit report
-
-Help me gather the parameters I need to generate an audit report
-
-Guide me through fixing the policy violations in my Assured Workload
 ```
 
 ---
@@ -164,9 +167,10 @@ Guide me through fixing the policy violations in my Assured Workload
 If built-in frameworks do not meet your exact requirements, you can instruct Gemini to create custom cloud controls using **CEL (Common Expression Language)**.
 
 ### Asking Gemini to Generate Controls
-You can describe the rule you want in natural language. Here are examples by resource type:
+You can describe the rule you want in natural language. Here are examples grouped by security goal:
 
-**Compute Engine**
+**Securing Compute & Virtual Machines**
+
 ```text
 Create a cloud control to ensure all VMs have Secure Boot enabled
 
@@ -177,7 +181,8 @@ Create a control to verify all VM disks are encrypted with customer-managed keys
 Make a control to check if VMs follow our naming convention: gcp-vm-prod-*
 ```
 
-**Cloud Storage**
+**Data Protection & Storage Security**
+
 ```text
 Create a cloud control to check if Cloud Storage buckets have public access prevention enforced
 
@@ -188,7 +193,8 @@ Create a control to ensure buckets are not publicly accessible
 Make a control to check if buckets use customer-managed encryption keys
 ```
 
-**Cloud SQL**
+**Database Security & High Availability**
+
 ```text
 Create a cloud control to ensure Cloud SQL instances don't have public IP addresses
 
@@ -199,7 +205,8 @@ Create a control to verify SSL/TLS is required for Cloud SQL connections
 Make a control to check if Cloud SQL instances are in high-availability configuration
 ```
 
-**Cloud KMS**
+**Key Management & Cryptographic Controls**
+
 ```text
 Create a cloud control to ensure KMS keys are rotated every 90 days or less
 
@@ -208,7 +215,8 @@ I need a control to check if KMS keys have destruction scheduled
 Create a control to verify KMS keys are in specific regions only
 ```
 
-**Networking & IAM**
+**Access Control & Network Security**
+
 ```text
 Create a cloud control to check if VPC networks have flow logs enabled
 
@@ -273,7 +281,42 @@ resource.data.state == 'ENABLED' // Correct!
 
 ---
 
-## 6. Troubleshooting Common Issues
+## 6. Advanced AI Skills & Guided Workflows
+
+The extension includes highly specialized "skills" designed to handle complex, multi-step cloud compliance workflows. Instead of executing a single command, triggering a skill turns Gemini into an interactive guide.
+
+You can trigger these skills by asking for them naturally:
+
+### 📊 Analyze Audit Reports
+Use this skill to have the AI digest complex compliance reports. Gemini will automatically fetch the latest runs across frameworks and summarize the exact number of passing, failing, manual, and skipped controls.
+
+```text
+Summarize the state changes and violations across frameworks in my latest audit report
+
+Analyze my PCI-DSS audit report for project [PROJECT_ID] and tell me what failed
+```
+
+### 📋 Audit Helper
+Generating an audit report requires multiple exact parameters. When you trigger this skill, Gemini will act as an interactive wizard. It will present a "Current State" checklist and guide you step-by-step through selecting the correct scope, framework, and enrolled GCS bucket. 
+
+```text
+Help me gather the parameters I need to generate an audit report
+
+I want to run an audit but I'm not sure what information I need to provide
+```
+
+### 🛠️ Organization Policy Remediation
+When a resource violates an Organization Policy, fixing it can be risky. This skill safely guides you through remediation. Gemini will present a detailed **Impact Summary** detailing exactly what will break if the policy is applied.
+
+```text
+Guide me through fixing the policy violations in my Assured Workload
+
+Help me remediate the organization policy violation [VIOLATION_ID]
+```
+
+---
+
+## 7. Troubleshooting Common Issues
 
 If you encounter unexpected behavior, check the following common issues:
 
@@ -290,7 +333,7 @@ If you encounter unexpected behavior, check the following common issues:
 * **Command Not Understood**
   Ensure you are providing sufficient context. For example, instead of just saying *"Deploy NIST"*, say *"Deploy the NIST framework to project [PROJECT_ID]"*.
 
-## 7. 💡 Tips for Best Results
+## 8. 💡 Tips for Best Results
 
 1. **Use Natural Language:** The CLI interprets conversational prompts. There is no need for rigid terminal syntax; simply formulate your operational requests clearly and directly.
 2. **Provide Explicit Context:** Ensure your prompts include necessary identifiers—such as Organization ID, Project ID, Region, or Workload ID—to guarantee accurate execution against the correct resources.
