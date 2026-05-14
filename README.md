@@ -87,7 +87,7 @@ To use the Assured Workloads and Audit Manager tools, you must meet the followin
 ### Automated Install (Recommended)
 
 ```bash
-git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
+git clone https://github.com/harshverma1996/assured-workloads-and-audit-manager.git
 cd assured-workloads-and-audit-manager
 chmod +x install.sh
 ./install.sh
@@ -105,7 +105,7 @@ If you prefer to install manually or use pip directly:
 
 ```bash
 # Clone the repository
-git clone https://github.com/gemini-cli-extensions/assured-workloads-and-audit-manager.git
+git clone https://github.com/harshverma1996/assured-workloads-and-audit-manager.git
 cd assured-workloads-and-audit-manager
 
 # Create extension directory
